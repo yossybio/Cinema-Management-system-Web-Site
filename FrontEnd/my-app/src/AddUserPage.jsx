@@ -141,7 +141,7 @@ const AddUserPage = () => {
             updatePermissions("Update Subscriptions");
           }}
         />
-        <label>Update Subscription</label>
+        <label>Update Subscriptions</label>
         <br />
         <input
           type="checkbox"
@@ -173,7 +173,7 @@ const AddUserPage = () => {
             updatePermissions("Update Movies");
           }}
         />
-        <label>Update Movie</label>
+        <label>Update Movies</label>
         <br />
         <br />
         <button type="submit">Save</button>

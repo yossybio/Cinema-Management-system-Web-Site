@@ -182,7 +182,7 @@ const EditUserPage = (props) => {
               updatePermissions("Update Subscriptions");
             }}
           />
-          <label>Update Subscription</label>
+          <label>Update Subscriptions</label>
           <br />
           <input
             type="checkbox"
@@ -218,7 +218,7 @@ const EditUserPage = (props) => {
               updatePermissions("Update Movies");
             }}
           />
-          <label>Update Movie</label>
+          <label>Update Movies</label>
           <br />
           <br />
           <button type="submit">Update</button>
