@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -10,21 +9,34 @@ const LoginPage = (props) => {
   const Login = async (e) => {
     e.preventDefault();
     const usersURL = "http://localhost:8001/users";
-    const allUsers = (await axios.get(usersURL)).data.users;
-    const currentUser = allUsers.filter((user) => user.UserName === userName);
+    const allUsers = (await axios.get(usersURL)).data;
+    const currentUser = allUsers.users.filter(
+      (user) => user.UserName === userName
+    );
 
     if (
       currentUser.length > 0 &&
       currentUser[0].UserName === userName &&
       currentUser[0].Password === password
     ) {
-      await sessionStorage.setItem("userId", currentUser[0]._id);
+      const currentUserId = currentUser[0]._id;
+      await sessionStorage.setItem("userId", currentUserId);
 
       if (userName === "Admin") {
         await sessionStorage.setItem("isAdmin", "true");
       } else {
         await sessionStorage.setItem("isAdmin", "false");
       }
+
+      const userPermissions = allUsers.usersPermissions.filter(
+        (userPermissions) => currentUserId === userPermissions.Id
+      );
+
+      await sessionStorage.setItem(
+        "userPermissions",
+        JSON.stringify(userPermissions[0].Permissions)
+      );
+
       props.history.push("/main");
     } else {
       alert("Incorrect user name or password");

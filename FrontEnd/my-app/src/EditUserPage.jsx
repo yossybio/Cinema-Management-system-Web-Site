@@ -6,6 +6,7 @@ const EditUserPage = (props) => {
   const { userId } = useParams();
   let [state, setState] = useState(null);
   let history = useHistory();
+  const [oldUserName, setOldUserName] = useState("");
 
   useEffect(() => {
     async function gettingUserData() {
@@ -16,6 +17,10 @@ const EditUserPage = (props) => {
         userDetails: [...oldUserData.userDetails],
         userPermissions: [...oldUserData.userPermissions],
       });
+
+      await setOldUserName(
+        `${oldUserData.userDetails[0].FirstName} ${oldUserData.userDetails[0].LastName}`
+      );
     }
 
     gettingUserData();
@@ -101,10 +106,7 @@ const EditUserPage = (props) => {
   return (
     state && (
       <div>
-        <h4>
-          Edit User :{" "}
-          {`${state.userDetails[0].FirstName} ${state.userDetails[0].LastName}`}
-        </h4>
+        <h4>Edit User : {oldUserName}</h4>
         <form
           onSubmit={(e) => {
             e.preventDefault();

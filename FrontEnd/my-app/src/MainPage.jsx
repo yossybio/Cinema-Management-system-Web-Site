@@ -25,7 +25,7 @@ const MainPage = (props) => {
     <div>
       <button
         onClick={(event) =>
-          routingToNewPage(event, `${props.match.url}/MoviesPage`)
+          routingToNewPage(event, `${props.match.url}/MoviesPage/AllMoviesPage`)
         }
       >
         Movies
@@ -47,6 +47,7 @@ const MainPage = (props) => {
       </button>{" "}
       <button
         onClick={async () => {
+          await sessionStorage.clear();
           await props.history.push("/");
         }}
       >
