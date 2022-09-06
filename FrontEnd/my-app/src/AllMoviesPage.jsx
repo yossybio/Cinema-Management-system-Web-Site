@@ -37,7 +37,7 @@ export default function AllMoviesPage(props) {
 
     getUserPermissions();
     fetchAllMovies();
-  }, []);
+  }, [allMovies]);
 
   let moviesRepeater = allMovies.map((movie) => (
     <MovieComponent

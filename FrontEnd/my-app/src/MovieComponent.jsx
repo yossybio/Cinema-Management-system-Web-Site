@@ -1,11 +1,23 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import SubscriptionWatchedComponent from "./SubscriptionWatchedComponent";
+import axios from "axios";
 
 function MovieComponent(props) {
   const routingToNewPage = (event, newPagePath) => {
     event.preventDefault();
     props.history.push(newPagePath);
+  };
+
+  const deleteMovie = async (movieId) => {
+    try {
+      await axios({
+        method: "delete",
+        url: `http://localhost:8000/movies/${movieId}`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -51,7 +63,12 @@ function MovieComponent(props) {
           Edit
         </button>
         {"   "}
-        <button disabled={props.hasDeletePermission ? false : true}>
+        <button
+          disabled={props.hasDeletePermission ? false : true}
+          onClick={() => {
+            deleteMovie(props.movieData._id);
+          }}
+        >
           Delete
         </button>
         <br />

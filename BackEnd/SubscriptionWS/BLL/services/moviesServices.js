@@ -1,4 +1,5 @@
 const Movie = require("../models/MovieModel");
+const subscriptionsServices = require("../services/subscriptionsServices");
 
 // Get-All
 const getAllMovies = () => {
@@ -56,6 +57,8 @@ const updateMovie = (id, movieToUpdate) => {
 
 // Delete
 const deleteMovie = (id) => {
+  subscriptionsServices.deleteMovieAndUpdateSubscriptionById(id);
+
   return new Promise((resolve, reject) => {
     let movieToDelete;
     Movie.findById(id, (err, movie) => {

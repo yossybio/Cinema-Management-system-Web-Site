@@ -152,52 +152,51 @@ const addMovieToSubscription = (memberId, newWatchedMovie) => {
   });
 };
 
-const deleteMovieAndUpdateSubscriptionById = async function (
-  memberId,
-  movieId
-) {
-  return new Promise(async (resolve, reject) => {
-    const subscription = await findSubscriptionByMemberId(memberId);
+// const deleteMovieAndUpdateSubscriptionById = async function (
+//   memberId,
+//   movieId
+// ) {
+//   return new Promise(async (resolve, reject) => {
+//     const subscription = await findSubscriptionByMemberId(memberId);
 
-    for (let j = 0; j < subscription[0].Movies.length; j++) {
-      const filteredMovies = subscription[0].Movies.filter(
-        (movie) => movie.MovieId.toString() !== movieId
-      );
-
-      const obj = {
-        MemberId: mongoose.Types.ObjectId(memberId),
-        Movies: [...filteredMovies],
-      };
-
-      Subscription.findByIdAndUpdate(subscription[0]._id, obj, (err) => {
-        if (err) reject(err);
-        else resolve("Subscription Movies Updated!");
-      });
-    }
-  });
-};
-
-// const deleteMovieAndUpdateSubscriptionById = async function (id) {
-//   const allSubscriptions = await getAllSubscriptions();
-
-//   for (let i = 0; i < allSubscriptions.length; i++) {
-//     for (let j = 0; j < allSubscriptions[i].Movies.length; j++) {
-//       const filteredMovies = allSubscriptions[i].Movies.filter(
-//         (movie) => movie.MovieId.toString() !== id
+//     for (let j = 0; j < subscription[0].Movies.length; j++) {
+//       const filteredMovies = subscription[0].Movies.filter(
+//         (movie) => movie.MovieId.toString() !== movieId
 //       );
 
 //       const obj = {
-//         MemberId: allSubscriptions[i].MemberId,
+//         MemberId: mongoose.Types.ObjectId(memberId),
 //         Movies: [...filteredMovies],
 //       };
 
-//       Subscription.findByIdAndUpdate(allSubscriptions[i]._id, obj, (err) => {
-//         if (err) console.log(err);
-//         else console.log("Person Movies Updated!");
+//       Subscription.findByIdAndUpdate(subscription[0]._id, obj, (err) => {
+//         if (err) reject(err);
+//         else resolve("Subscription Movies Updated!");
 //       });
 //     }
-//   }
+//   });
 // };
+
+const deleteMovieAndUpdateSubscriptionById = async function (id) {
+  const allSubscriptions = await getAllSubscriptions();
+
+  for (let i = 0; i < allSubscriptions.length; i++) {
+    for (let j = 0; j < allSubscriptions[i].Movies.length; j++) {
+      const filteredMovies = allSubscriptions[i].Movies.filter(
+        (movie) => movie.MovieId.toString() !== id
+      );
+
+      const obj = {
+        MemberId: allSubscriptions[i].MemberId,
+        Movies: [...filteredMovies],
+      };
+
+      Subscription.findByIdAndUpdate(allSubscriptions[i]._id, obj, (err) => {
+        if (err) console.log(err);
+      });
+    }
+  }
+};
 
 module.exports = {
   getAllSubscriptions,
@@ -206,5 +205,6 @@ module.exports = {
   addMovieToSubscription,
   deleteSubscription,
   findSubscriptionByMemberId,
-  deleteMovieAndUpdateSubscriptionById,
+  // deleteMovieAndUpdateSubscriptionById,
+  deleteMovieAndUpdateSubscriptionById
 };
