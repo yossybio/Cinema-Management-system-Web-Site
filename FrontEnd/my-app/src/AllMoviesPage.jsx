@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MovieComponent from "./MovieComponent";
-// import { getUsersPermissionsById } from "../../../BackEnd/CinemaWS/BLL/services/userPermissionsServices";
 
 export default function AllMoviesPage(props) {
   const [userPermissions, setUserPermissions] = useState([]);

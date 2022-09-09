@@ -32,7 +32,7 @@ const MainPage = (props) => {
       </button>{" "}
       <button
         onClick={(event) =>
-          routingToNewPage(event, `${props.match.url}/SubscriptionsPage`)
+          routingToNewPage(event, `${props.match.url}/SubscriptionsPage/AllMembersPage`)
         }
       >
         Subscriptions
