@@ -1,9 +1,11 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import SubscriptionWatchedComponent from "./SubscriptionWatchedComponent";
 import axios from "axios";
 
 function MovieComponent(props) {
+  let history = useHistory();
+
   const routingToNewPage = (event, newPagePath) => {
     event.preventDefault();
     props.history.push(newPagePath);
@@ -15,6 +17,7 @@ function MovieComponent(props) {
         method: "delete",
         url: `http://localhost:8000/movies/${movieId}`,
       });
+      history.goBack();
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +59,9 @@ function MovieComponent(props) {
           onClick={(event) => {
             routingToNewPage(
               event,
-              `${props.match.url}/EditMoviePage/${props.movieData._id}`
+              `${props.match.url.split("/AllMoviesPage")[0]}/EditMoviePage/${
+                props.movieData._id
+              }`
             );
           }}
         >

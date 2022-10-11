@@ -1,1 +1,10 @@
-{"usersDetails":[{"Id":"62812b8f1f5ec02b383c7ac2","FirstName":"Admin","LastName":"Admin","CreatedDate":"2022-05-15T16:34:23.466Z"},{"Id":"62da8e77cb5403386711b006","FirstName":"Yossy","LastName":"Yermian","CreatedDate":"2022-07-22T11:48:07.627Z"},{"Id":"62da9119cb5403386711b016","FirstName":"Nicole","LastName":"Yermian","CreatedDate":"2022-07-22T11:59:21.288Z"}]}
+{
+  "usersDetails": [
+    {
+      "Id": "62812b8f1f5ec02b383c7ac2",
+      "FirstName": "Administrator",
+      "LastName": "Administrator",
+      "CreatedDate": "2022-05-15T16:34:23.466Z"
+    }
+  ]
+}

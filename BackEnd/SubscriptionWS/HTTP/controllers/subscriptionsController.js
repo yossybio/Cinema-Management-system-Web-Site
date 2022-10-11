@@ -33,10 +33,12 @@ router.route("/").post(async (req, res) => {
   try {
     const subscription = req.body;
     const memberId = subscription.MemberId;
-    const newWatchedMovie = subscription.NewWatchedMovie;
+    const movieToSubscribe = subscription.MovieToSubscribe;
+    const subscriptionDate = subscription.SubscriptionDate;
     const result = await subscriptionsService.addMovieToSubscription(
       memberId,
-      newWatchedMovie
+      movieToSubscribe,
+      subscriptionDate
     );
     return res.json(result);
   } catch (error) {

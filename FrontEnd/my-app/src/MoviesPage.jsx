@@ -63,8 +63,12 @@ const MoviesPage = (props) => {
           component={AddMoviePage}
         />
         <Route
-          path={`${props.match.url}/AllMoviesPage/EditMoviePage/:movieId`}
+          path={`${props.match.url}/EditMoviePage/:movieId`}
           component={EditMoviePage}
+        />
+        <Route
+          path={`${props.match.url}/AllMoviesPage/:movieId`}
+          component={AllMoviesPage}
         />
       </Switch>
     </div>

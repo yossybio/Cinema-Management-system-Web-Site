@@ -1,8 +1,20 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 
 const User = (props) => {
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    async function checkingForAdmin() {
+      props.user.UserName === "Administrator"
+        ? setIsAdmin(true)
+        : setIsAdmin(false);
+    }
+
+    checkingForAdmin();
+  }, []);
+
   const editUser = async (userId) => {
     props.history.push(`${props.match.url}/EditUserPage/${userId}`);
   };
@@ -33,6 +45,7 @@ const User = (props) => {
         onClick={() => {
           editUser(props.user._id);
         }}
+        disabled={isAdmin}
       >
         Edit
       </button>
@@ -40,6 +53,7 @@ const User = (props) => {
         onClick={() => {
           deleteUser(props.user._id);
         }}
+        disabled={isAdmin}
       >
         Delete
       </button>

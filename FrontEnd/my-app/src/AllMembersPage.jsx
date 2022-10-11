@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MemberComp from "./MemberComp";
+import MoviesWatchedComponent from "./MoviesWatchedComponent";
 // import { getUsersPermissionsById } from "../../../BackEnd/CinemaWS/BLL/services/userPermissionsServices";
 
 export default function AllMembersPage(props) {
@@ -31,9 +32,7 @@ export default function AllMembersPage(props) {
     };
 
     const fetchAllMembers = async () => {
-      let members = (
-        await axios.get("http://localhost:8000/members")
-      ).data;
+      let members = (await axios.get("http://localhost:8000/members")).data;
       await setAllMembers(members);
     };
 
@@ -41,12 +40,10 @@ export default function AllMembersPage(props) {
     fetchAllMembers();
   }, [allMembers]);
 
-  // console.log(allMembers);
   let subscriptionsRepeater = allMembers.map((member) => (
     <div key={member._id}>
       <br />
       <MemberComp memberId={member._id} />
-      {/* <MoviesWatchedComp/> */}
     </div>
     // <MovieComponent
     //   key={movie._id}

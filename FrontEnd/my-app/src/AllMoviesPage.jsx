@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MovieComponent from "./MovieComponent";
+import { useParams } from "react-router-dom";
 
 export default function AllMoviesPage(props) {
+  const { movieId } = useParams();
   const [userPermissions, setUserPermissions] = useState([]);
   const [hasViewPermission, setHasViewPermission] = useState(false);
   const [hasEditPermission, setHasEditPermission] = useState(false);
@@ -30,8 +32,15 @@ export default function AllMoviesPage(props) {
     };
 
     const fetchAllMovies = async () => {
-      let movies = (await axios.get("http://localhost:8000/movies")).data;
-      await setAllMovies(movies);
+      if (movieId) {
+        const selectedMovieURL = `http://localhost:8000/movies/${movieId}`;
+        let selectedMovieData = (await axios.get(selectedMovieURL)).data;
+        await setAllMovies([{ ...selectedMovieData }]);
+      } else {
+        const moviesURL = `http://localhost:8000/movies`;
+        let movies = (await axios.get(moviesURL)).data;
+        await setAllMovies(movies);
+      }
     };
 
     getUserPermissions();
@@ -46,5 +55,6 @@ export default function AllMoviesPage(props) {
       hasDeletePermission={hasDeletePermission}
     />
   ));
+
   return hasViewPermission && <div>{moviesRepeater}</div>;
 }

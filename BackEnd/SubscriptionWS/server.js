@@ -17,9 +17,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // controller
 app.use("/movies", moviesController);
-// utils.getAllMoviesFromWS();
+utils.getAllMoviesFromWS();
 app.use("/members", membersController);
-// utils.getAllMembersFromWS();
+utils.getAllMembersFromWS();
 app.use("/subscriptions", subscriptionsController);
 
 app.listen(port, () => {

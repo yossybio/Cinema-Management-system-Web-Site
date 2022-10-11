@@ -57,8 +57,6 @@ function MemberComp(props) {
     }
   };
 
-  // console.log(memberData);
-  // console.log(props.memberId);
   return (
     memberData && (
       <div style={{ border: "3px solid black", width: "25rem" }}>
@@ -92,8 +90,9 @@ function MemberComp(props) {
         <MoviesWatchedComponent
           style={{
             border: "3px solid black",
+            width: "22.5rem",
           }}
-          watchedMovies={memberData.Movies}
+          memberId={props.memberId}
         />
       </div>
     )

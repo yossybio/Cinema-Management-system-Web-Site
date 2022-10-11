@@ -48,7 +48,7 @@ export default function SubscriptionWatchedComponent(props) {
               <li
                 key={`${subscriptionDetails[index].MovieId} ${subscriptionDetails[index].MemberName}`}
               >
-                {`${subscriptionDetails[index].MemberName}, ${subscriptionDetails[index].MovieWatchedDate}`}
+                {`${subscriptionDetails[index].MemberName}, ${subscriptionDetails[index].MovieWatchedDate.split(",")[0]}`}
               </li>
             );
           }

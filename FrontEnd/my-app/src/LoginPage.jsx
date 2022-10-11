@@ -22,7 +22,7 @@ const LoginPage = (props) => {
       const currentUserId = currentUser[0]._id;
       await sessionStorage.setItem("userId", currentUserId);
 
-      if (userName === "Admin") {
+      if (userName === "Administrator") {
         await sessionStorage.setItem("isAdmin", "true");
       } else {
         await sessionStorage.setItem("isAdmin", "false");

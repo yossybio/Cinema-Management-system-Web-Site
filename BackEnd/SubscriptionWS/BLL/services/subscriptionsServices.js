@@ -88,7 +88,11 @@ const findSubscriptionByMemberId = function (memberId) {
 };
 
 //Post
-const addMovieToSubscription = (memberId, newWatchedMovie) => {
+const addMovieToSubscription = (
+  memberId,
+  movieToSubscribe,
+  subscriptionDate
+) => {
   return new Promise(async (resolve, reject) => {
     Subscription.find(
       { MemberId: { $eq: memberId } },
@@ -99,7 +103,7 @@ const addMovieToSubscription = (memberId, newWatchedMovie) => {
           if (subscription.length > 0) {
             const allMovies = subscription[0].Movies;
             const matchedMovie = allMovies.find(
-              (movie) => movie.MovieId.toString() === newWatchedMovie
+              (movie) => movie.MovieId.toString() === movieToSubscribe
             );
 
             if (matchedMovie) {
@@ -110,8 +114,8 @@ const addMovieToSubscription = (memberId, newWatchedMovie) => {
                 Movies: [
                   ...allMovies,
                   {
-                    MovieId: mongoose.Types.ObjectId(newWatchedMovie),
-                    Date: Date.now(),
+                    MovieId: mongoose.Types.ObjectId(movieToSubscribe),
+                    Date: subscriptionDate,
                   },
                 ],
               };
@@ -130,8 +134,8 @@ const addMovieToSubscription = (memberId, newWatchedMovie) => {
               //
               Movies: [
                 {
-                  MovieId: mongoose.Types.ObjectId(newWatchedMovie),
-                  Date: Date.now(),
+                  MovieId: mongoose.Types.ObjectId(movieToSubscribe),
+                  Date: new Date(subscriptionDate),
                 },
               ],
             });
@@ -206,5 +210,5 @@ module.exports = {
   deleteSubscription,
   findSubscriptionByMemberId,
   // deleteMovieAndUpdateSubscriptionById,
-  deleteMovieAndUpdateSubscriptionById
+  deleteMovieAndUpdateSubscriptionById,
 };
