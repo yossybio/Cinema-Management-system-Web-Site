@@ -5,36 +5,42 @@ import { Link } from "react-router-dom";
 const LoginPage = (props) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [hasError, setHasError] = useState(null);
 
   const Login = async (e) => {
     e.preventDefault();
+
     const usersURL = "http://localhost:8001/users";
-    const allUsers = (await axios.get(usersURL)).data;
+    let allUsers;
+    try {
+      allUsers = (await axios.get(usersURL)).data;
+    } catch (error) {
+      console.error(error);
+      await setHasError(error);
+      return;
+    }
+
     const currentUser = allUsers.users.filter(
       (user) => user.UserName === userName
-    );
+    )[0];
 
     if (
-      currentUser.length > 0 &&
-      currentUser[0].UserName === userName &&
-      currentUser[0].Password === password
+      currentUser &&
+      currentUser.UserName === userName &&
+      currentUser.Password === password
     ) {
-      const currentUserId = currentUser[0]._id;
-      await sessionStorage.setItem("userId", currentUserId);
+      const isAdministrator = userName === "Administrator";
+      await sessionStorage.setItem("isAdmin", isAdministrator.toString());
 
-      if (userName === "Administrator") {
-        await sessionStorage.setItem("isAdmin", "true");
-      } else {
-        await sessionStorage.setItem("isAdmin", "false");
-      }
+      const currentUserId = currentUser._id;
+      await sessionStorage.setItem("userId", currentUserId);
 
       const userPermissions = allUsers.usersPermissions.filter(
         (userPermissions) => currentUserId === userPermissions.Id
-      );
-
+      )[0].Permissions;
       await sessionStorage.setItem(
         "userPermissions",
-        JSON.stringify(userPermissions[0].Permissions)
+        JSON.stringify(userPermissions)
       );
 
       props.history.push("/main");
@@ -68,6 +74,7 @@ const LoginPage = (props) => {
         <label>New User ? : </label>
         <Link to="/createAccount">Create Account</Link>
       </form>
+      {hasError && <p style={{ color: "red" }}>Somthing went wrong!</p>}
     </div>
   );
 };
