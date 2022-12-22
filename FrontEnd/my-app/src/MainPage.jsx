@@ -1,58 +1,46 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, NavLink } from "react-router-dom";
 import MoviesPage from "./MoviesPage";
 import SubscriptionsPage from "./SubscriptionsPage";
 import ManageUsersPage from "./ManageUsersPage";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import classes from "./MainPage.module.css";
 
 const MainPage = (props) => {
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    if (sessionStorage.getItem("isAdmin") === "true") {
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
-    }
-  }, []);
-
-  const routingToNewPage = (event, newPagePath) => {
-    event.preventDefault();
-    props.history.push(newPagePath);
-  };
+  const [isAdmin, setIsAdmin] = useState(
+    sessionStorage.getItem("isAdmin") === "true"
+  );
 
   return (
     <div>
-      <button
-        onClick={(event) =>
-          routingToNewPage(event, `${props.match.url}/MoviesPage/AllMoviesPage`)
-        }
+      <NavLink
+        to={`${props.match.url}/MoviesPage/AllMoviesPage`}
+        activeClassName={classes.selectedNavLink}
       >
         Movies
-      </button>{" "}
-      <button
-        onClick={(event) =>
-          routingToNewPage(event, `${props.match.url}/SubscriptionsPage/AllMembersPage`)
-        }
+      </NavLink>{" "}
+      <NavLink
+        to={`${props.match.url}/SubscriptionsPage/AllMembersPage`}
+        activeClassName={classes.selectedNavLink}
       >
         Subscriptions
-      </button>{" "}
-      <button
+      </NavLink>{" "}
+      <NavLink
+        to={`${props.match.url}/ManageUsersPage`}
+        activeClassName={classes.selectedNavLink}
         style={isAdmin ? { display: "inline-block" } : { display: "none" }}
-        onClick={(event) =>
-          routingToNewPage(event, `${props.match.url}/ManageUsersPage`)
-        }
       >
         Users Managment
-      </button>{" "}
-      <button
+      </NavLink>{" "}
+      <NavLink
+        to={"/"}
         onClick={async () => {
           await sessionStorage.clear();
-          await props.history.push("/");
         }}
       >
         Log Out
-      </button>
+      </NavLink>
+      
       <Switch>
         <Route path={`${props.match.url}/MoviesPage`} component={MoviesPage} />
         <Route
