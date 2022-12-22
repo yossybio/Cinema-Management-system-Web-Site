@@ -5,11 +5,21 @@ import axios from "axios";
 const CreateAccountPage = (props) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [hasError, setHasError] = useState(null);
 
   const createAccount = async (e) => {
     e.preventDefault();
+
     const usersURL = "http://localhost:8001/users";
-    const allUsersData = (await axios.get(usersURL)).data;
+    let allUsersData;
+
+    try {
+      allUsersData = (await axios.get(usersURL)).data;
+    } catch (error) {
+      console.error(error);
+      await setHasError(error);
+      return;
+    }
     const users = allUsersData.users;
     const details = allUsersData.usersDetails;
     const permissions = allUsersData.usersPermissions;
@@ -33,7 +43,14 @@ const CreateAccountPage = (props) => {
         Permissions: permissions[userIndex].Permissions,
       };
 
-      await axios.put(`${usersURL}/${userId}`, obj);
+      try {
+        await axios.put(`${usersURL}/${userId}`, obj);
+      } catch (error) {
+        console.error(error);
+        await setHasError(error);
+        return;
+      }
+
       await props.history.push("/");
     } else {
       alert("Invalid user name!!!");
@@ -62,6 +79,7 @@ const CreateAccountPage = (props) => {
         <br />
         <button type="submit">Create</button>
       </form>
+      {hasError && <p style={{ color: "red" }}>Somthing went wrong!</p>}
     </div>
   );
 };
