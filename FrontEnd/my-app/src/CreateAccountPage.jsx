@@ -58,7 +58,7 @@ const CreateAccountPage = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <h3>Create an Account </h3>
       <form onSubmit={createAccount}>
         <label>User Name : </label>
@@ -80,7 +80,7 @@ const CreateAccountPage = (props) => {
         <button type="submit">Create</button>
       </form>
       {hasError && <p style={{ color: "red" }}>Somthing went wrong!</p>}
-    </div>
+    </React.Fragment>
   );
 };
 

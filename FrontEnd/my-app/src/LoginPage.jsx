@@ -50,7 +50,7 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <h3>Log in Page</h3>
       <form onSubmit={Login}>
         <label>User Name : </label>
@@ -75,7 +75,7 @@ const LoginPage = (props) => {
         <Link to="/createAccount">Create Account</Link>
       </form>
       {hasError && <p style={{ color: "red" }}>Somthing went wrong!</p>}
-    </div>
+    </React.Fragment>
   );
 };
 

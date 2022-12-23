@@ -12,16 +12,18 @@ const MainPage = (props) => {
   );
 
   return (
-    <div>
+    <React.Fragment>
       <NavLink
         to={`${props.match.url}/MoviesPage/AllMoviesPage`}
         activeClassName={classes.selectedNavLink}
+        className={classes.navLinkAll}
       >
         Movies
       </NavLink>{" "}
       <NavLink
         to={`${props.match.url}/SubscriptionsPage/AllMembersPage`}
         activeClassName={classes.selectedNavLink}
+        className={classes.navLinkAll}
       >
         Subscriptions
       </NavLink>{" "}
@@ -29,6 +31,7 @@ const MainPage = (props) => {
         to={`${props.match.url}/ManageUsersPage`}
         activeClassName={classes.selectedNavLink}
         style={isAdmin ? { display: "inline-block" } : { display: "none" }}
+        className={classes.navLinkAll}
       >
         Users Managment
       </NavLink>{" "}
@@ -37,10 +40,10 @@ const MainPage = (props) => {
         onClick={async () => {
           await sessionStorage.clear();
         }}
+        className={classes.navLinkAll}
       >
         Log Out
       </NavLink>
-      
       <Switch>
         <Route path={`${props.match.url}/MoviesPage`} component={MoviesPage} />
         <Route
@@ -52,7 +55,7 @@ const MainPage = (props) => {
           component={ManageUsersPage}
         />
       </Switch>
-    </div>
+    </React.Fragment>
   );
 };
 
