@@ -1,32 +1,29 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, NavLink } from "react-router-dom";
 import UsersPage from "./UsersPage";
 import AddUserPage from "./AddUserPage";
 import EditUserPage from "./EditUserPage";
+import classes from "./navLink.module.css";
 
 const ManageUsersPage = (props) => {
-  const routingToNewPage = (event, newPagePath) => {
-    event.preventDefault();
-    props.history.push(newPagePath);
-  };
-
   return (
-    <div>
+    <React.Fragment>
       <h3>Users</h3>
-      <button
-        onClick={(event) => {
-          routingToNewPage(event, `${props.match.url}`);
-        }}
+      <NavLink
+        to={props.match.url} exact
+        activeClassName={classes.selectedNavLink}
+        className={classes.navLinkStyle}
       >
         All Users
-      </button>
-      <button
-        onClick={(event) => {
-          routingToNewPage(event, `${props.match.url}/AddUserPage`);
-        }}
+      </NavLink>
+      {"  "}
+      <NavLink
+        to={`${props.match.url}/AddUserPage`}
+        activeClassName={classes.selectedNavLink}
+        className={classes.navLinkStyle}
       >
         Add User
-      </button>
+      </NavLink>
       <Switch>
         <Route path={`${props.match.url}/`} exact component={UsersPage} />
         <Route
@@ -38,7 +35,7 @@ const ManageUsersPage = (props) => {
           component={EditUserPage}
         />
       </Switch>
-    </div>
+    </React.Fragment>
   );
 };
 

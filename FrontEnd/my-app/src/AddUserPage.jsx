@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const AddUserPage = () => {
-  let [state, setState] = useState({
+  const [state, setState] = useState({
     FirstName: "",
     LastName: "",
     UserName: "",
     Permissions: [],
   });
+  const [hasError, setHasError] = useState(null);
   let history = useHistory();
 
   const updatePermissions = async (changedPermission) => {
     let newState = { ...state };
-    const index =
-      state.Permissions.indexOf(changedPermission);
+    const index = state.Permissions.indexOf(changedPermission);
     if (index > -1) {
       const oldPermissionsArray = [...state.Permissions];
       const newPermissionsArray = oldPermissionsArray.filter(
@@ -61,8 +61,8 @@ const AddUserPage = () => {
     await setState(newState);
   };
 
-  const savingChanges = () => {
-    axios({
+  const savingChanges = async () => {
+    await axios({
       method: "post",
       url: `http://localhost:8001/users/`,
       headers: {},
@@ -76,13 +76,18 @@ const AddUserPage = () => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <h4>Add New User :</h4>
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          savingChanges();
-          history.goBack();
+          try {
+            await savingChanges();
+            history.goBack();
+          } catch (error) {
+            console.error(error);
+            await setHasError(error);
+          }
         }}
       >
         <label>First Name : </label>
@@ -186,7 +191,8 @@ const AddUserPage = () => {
           Cancel
         </button>
       </form>
-    </div>
+      {hasError && <p style={{ color: "red" }}>Adding new user failed!</p>}
+    </React.Fragment>
   );
 };
 

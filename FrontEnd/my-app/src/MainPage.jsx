@@ -4,7 +4,7 @@ import MoviesPage from "./MoviesPage";
 import SubscriptionsPage from "./SubscriptionsPage";
 import ManageUsersPage from "./ManageUsersPage";
 import { useState } from "react";
-import classes from "./MainPage.module.css";
+import classes from "./navLink.module.css";
 
 const MainPage = (props) => {
   const [isAdmin, setIsAdmin] = useState(
@@ -16,14 +16,14 @@ const MainPage = (props) => {
       <NavLink
         to={`${props.match.url}/MoviesPage/AllMoviesPage`}
         activeClassName={classes.selectedNavLink}
-        className={classes.navLinkAll}
+        className={classes.navLinkStyle}
       >
         Movies
       </NavLink>{" "}
       <NavLink
         to={`${props.match.url}/SubscriptionsPage/AllMembersPage`}
         activeClassName={classes.selectedNavLink}
-        className={classes.navLinkAll}
+        className={classes.navLinkStyle}
       >
         Subscriptions
       </NavLink>{" "}
@@ -31,7 +31,7 @@ const MainPage = (props) => {
         to={`${props.match.url}/ManageUsersPage`}
         activeClassName={classes.selectedNavLink}
         style={isAdmin ? { display: "inline-block" } : { display: "none" }}
-        className={classes.navLinkAll}
+        className={classes.navLinkStyle}
       >
         Users Managment
       </NavLink>{" "}
@@ -40,7 +40,7 @@ const MainPage = (props) => {
         onClick={async () => {
           await sessionStorage.clear();
         }}
-        className={classes.navLinkAll}
+        className={classes.navLinkStyle}
       >
         Log Out
       </NavLink>

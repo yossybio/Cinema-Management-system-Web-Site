@@ -4,9 +4,10 @@ import { useParams, useHistory } from "react-router-dom";
 
 const EditUserPage = (props) => {
   const { userId } = useParams();
-  let [state, setState] = useState(null);
-  let history = useHistory();
+  const [state, setState] = useState(null);
+  const history = useHistory();
   const [oldUserName, setOldUserName] = useState("");
+  const [hasError, setHasError] = useState(null);
 
   useEffect(() => {
     async function gettingUserData() {
@@ -24,7 +25,7 @@ const EditUserPage = (props) => {
     }
 
     gettingUserData();
-  }, []);
+  }, [userId]);
 
   const gettingOldPermissions = (oldPermission) => {
     return state.userPermissions[0].Permissions.indexOf(oldPermission) > -1;
@@ -88,8 +89,8 @@ const EditUserPage = (props) => {
     await setState(newState);
   };
 
-  const savingChanges = () => {
-    axios({
+  const savingChanges = async () => {
+    return await axios({
       method: "put",
       url: `http://localhost:8001/users/${state.users._id}`,
       headers: {},
@@ -108,10 +109,15 @@ const EditUserPage = (props) => {
       <div>
         <h4>Edit User : {oldUserName}</h4>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            savingChanges();
-            history.goBack();
+            try {
+              await savingChanges();
+              history.goBack();
+            } catch (error) {
+              console.error(error);
+              await setHasError(error);
+            }
           }}
         >
           <label>First Name : </label>
@@ -233,6 +239,9 @@ const EditUserPage = (props) => {
             Cancel
           </button>
         </form>
+        {hasError && (
+          <p style={{ color: "red" }}>Edit user ended unsuccessfully!</p>
+        )}
       </div>
     )
   );

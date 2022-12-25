@@ -4,16 +4,16 @@ import { withRouter } from "react-router-dom";
 
 const User = (props) => {
   const [isAdmin, setIsAdmin] = useState(false);
+  const [hasError, setHasError] = useState(null);
 
   useEffect(() => {
     async function checkingForAdmin() {
-      props.user.UserName === "Administrator"
-        ? setIsAdmin(true)
-        : setIsAdmin(false);
+      let isAdministrator = props.user.UserName === "Administrator";
+      setIsAdmin(isAdministrator);
     }
 
     checkingForAdmin();
-  }, []);
+  }, [props.user.UserName]);
 
   const editUser = async (userId) => {
     props.history.push(`${props.match.url}/EditUserPage/${userId}`);
@@ -21,7 +21,13 @@ const User = (props) => {
 
   const deleteUser = async (userId) => {
     const usersURL = "http://localhost:8001/users";
-    await axios.delete(`${usersURL}/${userId}`);
+    try {
+      await axios.delete(`${usersURL}/${userId}`);
+    } catch (error) {
+      console.error(error);
+      await setHasError(error);
+    }
+
     props.loadingAllUsersFunc();
   };
 
@@ -59,6 +65,9 @@ const User = (props) => {
       </button>
       <br />
       <br />
+      {hasError && (
+        <p style={{ color: "red" }}>Deletion did not complete successfully!</p>
+      )}
     </div>
   );
 };
