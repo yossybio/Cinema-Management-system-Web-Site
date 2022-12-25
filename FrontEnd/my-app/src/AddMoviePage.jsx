@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -11,7 +11,8 @@ export default function AddMoviePage() {
       Premiered: "",
     },
   });
-  let history = useHistory();
+  const [hasError, setHasError] = useState(null);
+  const history = useHistory();
 
   const handleUserDetailsChange = async (event) => {
     let { name, value } = event.target;
@@ -29,8 +30,8 @@ export default function AddMoviePage() {
     await setState(newState);
   };
 
-  const savingNewMovie = () => {
-    axios({
+  const savingNewMovie = async () => {
+    await axios({
       method: "post",
       url: `http://localhost:8000/movies`,
       headers: {},
@@ -44,12 +45,20 @@ export default function AddMoviePage() {
   };
 
   return (
-    <div>
+    <React.Fragment>
+      <br />
+      <br />
+      <br />
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          savingNewMovie();
-          history.goBack();
+          try {
+            await savingNewMovie();
+            history.goBack();
+          } catch (error) {
+            console.error(error);
+            await setHasError(error);
+          }
         }}
       >
         <label>Name : </label>
@@ -80,6 +89,7 @@ export default function AddMoviePage() {
           Cancel
         </button>
       </form>
-    </div>
+      {hasError && <p style={{ color: "red" }}>Adding new movie failed!</p>}
+    </React.Fragment>
   );
 }

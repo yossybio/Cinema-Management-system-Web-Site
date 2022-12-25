@@ -4,9 +4,10 @@ import { useParams, useHistory } from "react-router-dom";
 
 export default function EditMoviePage() {
   const { movieId } = useParams();
-  let [state, setState] = useState(null);
-  let history = useHistory();
+  const [state, setState] = useState(null);
   const [oldMovieName, setOldMovieName] = useState("");
+  const [hasError, setHasError] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     async function gettingMovieData() {
@@ -20,7 +21,7 @@ export default function EditMoviePage() {
     }
 
     gettingMovieData();
-  }, []);
+  }, [movieId]);
 
   const handleMovieDetailsChange = async (event) => {
     let { name, value } = event.target;
@@ -38,8 +39,8 @@ export default function EditMoviePage() {
     await setState(newState);
   };
 
-  const savingChanges = () => {
-    axios({
+  const savingChanges = async () => {
+    await axios({
       method: "put",
       url: `http://localhost:8000/movies/${movieId}`,
       headers: {},
@@ -57,10 +58,15 @@ export default function EditMoviePage() {
       <div>
         <h4>Edit Movie : {`${oldMovieName}`}</h4>
         <form
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            savingChanges();
-            history.goBack();
+            try {
+              await savingChanges();
+              history.goBack();
+            } catch (error) {
+              console.error(error);
+              await setHasError(error);
+            }
           }}
         >
           <label>Name : </label>
@@ -109,6 +115,9 @@ export default function EditMoviePage() {
             Cancel
           </button>
         </form>
+        {hasError && (
+          <p style={{ color: "red" }}>Edit movie ended unsuccessfully!</p>
+        )}
       </div>
     )
   );

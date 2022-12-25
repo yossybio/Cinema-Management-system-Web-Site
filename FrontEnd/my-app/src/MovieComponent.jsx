@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory, withRouter } from "react-router-dom";
 import SubscriptionWatchedComponent from "./SubscriptionWatchedComponent";
 import axios from "axios";
 
 function MovieComponent(props) {
   let history = useHistory();
+  const [deletionHasError, setDeletionHasError] = useState(null);
 
   const routingToNewPage = (event, newPagePath) => {
     event.preventDefault();
@@ -19,12 +20,13 @@ function MovieComponent(props) {
       });
       history.goBack();
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      await setDeletionHasError(error);
     }
   };
 
   return (
-    <div>
+    <React.Fragment>
       <br />
       <div style={{ border: "3px solid black", width: "25rem" }}>
         <label>
@@ -77,10 +79,13 @@ function MovieComponent(props) {
           Delete
         </button>
         <br />
+        {deletionHasError && (
+          <p style={{ color: "red" }}>Deletion ended unsuccessfully!</p>
+        )}
         <br />
       </div>
       <br />
-    </div>
+    </React.Fragment>
   );
 }
 

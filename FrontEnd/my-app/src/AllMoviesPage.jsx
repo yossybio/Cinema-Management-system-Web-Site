@@ -10,6 +10,7 @@ export default function AllMoviesPage(props) {
   const [hasEditPermission, setHasEditPermission] = useState(false);
   const [hasDeletePermission, setHasDeletePermission] = useState(false);
   const [allMovies, setAllMovies] = useState([]);
+  const [hasError, setHasError] = useState(null);
 
   useEffect(() => {
     const getUserPermissions = async () => {
@@ -32,20 +33,25 @@ export default function AllMoviesPage(props) {
     };
 
     const fetchAllMovies = async () => {
-      if (movieId) {
-        const selectedMovieURL = `http://localhost:8000/movies/${movieId}`;
-        let selectedMovieData = (await axios.get(selectedMovieURL)).data;
-        await setAllMovies([{ ...selectedMovieData }]);
-      } else {
-        const moviesURL = `http://localhost:8000/movies`;
-        let movies = (await axios.get(moviesURL)).data;
-        await setAllMovies(movies);
+      try {
+        if (movieId) {
+          const selectedMovieURL = `http://localhost:8000/movies/${movieId}`;
+          let selectedMovieData = (await axios.get(selectedMovieURL)).data;
+          await setAllMovies([{ ...selectedMovieData }]);
+        } else {
+          const moviesURL = `http://localhost:8000/movies`;
+          let movies = (await axios.get(moviesURL)).data;
+          await setAllMovies(movies);
+        }
+      } catch (error) {
+        console.error(error);
+        await setHasError(error);
       }
     };
 
     getUserPermissions();
     fetchAllMovies();
-  }, [allMovies]);
+  }, [movieId, allMovies]);
 
   let moviesRepeater = allMovies.map((movie) => (
     <MovieComponent
@@ -56,5 +62,10 @@ export default function AllMoviesPage(props) {
     />
   ));
 
-  return hasViewPermission && <div>{moviesRepeater}</div>;
+  return (
+    <React.Fragment>
+      {hasViewPermission && <div>{moviesRepeater}</div>}
+      {hasError && <p style={{ color: "red" }}>Something went wrong!</p>}
+    </React.Fragment>
+  );
 }

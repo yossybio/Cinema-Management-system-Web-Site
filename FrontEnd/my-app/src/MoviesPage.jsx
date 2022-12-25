@@ -1,19 +1,15 @@
 import { React, useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, NavLink } from "react-router-dom";
 import AddMoviePage from "./AddMoviePage";
 import EditMoviePage from "./EditMoviePage";
 import AllMoviesPage from "./AllMoviesPage";
+import classes from "./navLink.module.css";
 
 const MoviesPage = (props) => {
   const [userPermissions, setUserPermissions] = useState([]);
   const [hasViewMoviesPermission, setHasViewMoviesPermission] = useState(false);
   const [hasCreateMoviesPermission, setHasCreateMoviesPermission] =
     useState(false);
-
-  const routingToNewPage = (event, newPagePath) => {
-    event.preventDefault();
-    props.history.push(newPagePath);
-  };
 
   useEffect(() => {
     const getUserPermissions = async () => {
@@ -36,22 +32,24 @@ const MoviesPage = (props) => {
   return (
     <div>
       <h3>Movies</h3>
-      <button
+      <NavLink
         disabled={hasViewMoviesPermission ? false : true}
-        onClick={(event) => {
-          routingToNewPage(event, `${props.match.url}/AllMoviesPage`);
-        }}
+        to={`${props.match.url}/AllMoviesPage`}
+        className={classes.navLinkStyle}
+        activeClassName={classes.selectedNavLink}
       >
+        {" "}
         All Movies
-      </button>
-      <button
+      </NavLink>
+      {"  "}
+      <NavLink
         disabled={hasCreateMoviesPermission ? false : true}
-        onClick={(event) => {
-          routingToNewPage(event, `${props.match.url}/AddMoviePage`);
-        }}
+        to={`${props.match.url}/AddMoviePage`}
+        className={classes.navLinkStyle}
+        activeClassName={classes.selectedNavLink}
       >
         Add Movie
-      </button>
+      </NavLink>
       <Switch>
         <Route
           path={`${props.match.url}/AllMoviesPage`}
