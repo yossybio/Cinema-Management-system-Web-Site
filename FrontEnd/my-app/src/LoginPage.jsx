@@ -7,8 +7,8 @@ const LoginPage = (props) => {
   const [password, setPassword] = useState("");
   const [hasError, setHasError] = useState(null);
 
-  const Login = async (e) => {
-    e.preventDefault();
+  const Login = async (event) => {
+    event.preventDefault();
 
     const usersURL = "http://localhost:8001/users";
     let allUsers;
@@ -43,7 +43,7 @@ const LoginPage = (props) => {
         JSON.stringify(userPermissions)
       );
 
-      props.history.push("/main");
+      props.history.replace("/main");
     } else {
       alert("Incorrect user name or password");
     }
