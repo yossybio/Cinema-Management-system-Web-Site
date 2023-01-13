@@ -40,8 +40,7 @@ function MovieComponent(props) {
         )}`}</label>
         <br />
         <img
-          src="https://static.tvmaze.com/uploads/images/medium_portrait/81/202627.jpg"
-          // src={`${props.movieData.Image}`}
+          src={`${props.movieData.Image}`}
           width={"60rem"}
           height={"120rem"}
           alt={`${props.movieData.Name}`}

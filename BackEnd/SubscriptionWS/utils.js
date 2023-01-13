@@ -32,7 +32,7 @@ const getAllMoviesFromWS = async () => {
       return (movieObj = {
         Name: movie.name,
         Genres: movie.genres,
-        Image: movie.url,
+        Image: movie.image.medium,
         Premiered: movie.premiered,
       });
     });
