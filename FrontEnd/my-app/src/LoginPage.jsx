@@ -30,15 +30,15 @@ const LoginPage = (props) => {
       currentUser.Password === password
     ) {
       const isAdministrator = userName === "Administrator";
-      await sessionStorage.setItem("isAdmin", isAdministrator.toString());
+      sessionStorage.setItem("isAdmin", isAdministrator.toString());
 
       const currentUserId = currentUser._id;
-      await sessionStorage.setItem("userId", currentUserId);
+      sessionStorage.setItem("userId", currentUserId);
 
       const userPermissions = allUsers.usersPermissions.filter(
         (userPermissions) => currentUserId === userPermissions.Id
       )[0].Permissions;
-      await sessionStorage.setItem(
+      sessionStorage.setItem(
         "userPermissions",
         JSON.stringify(userPermissions)
       );

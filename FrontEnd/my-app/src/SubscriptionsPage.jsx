@@ -21,7 +21,7 @@ const SubscriptionsPage = (props) => {
   useEffect(() => {
     const getUserPermissions = async () => {
       const permissions = JSON.parse(
-        await sessionStorage.getItem("userPermissions")
+        sessionStorage.getItem("userPermissions")
       );
       await setUserPermissions(permissions);
 

@@ -38,7 +38,7 @@ const MainPage = (props) => {
       <NavLink
         to={"/"}
         onClick={async () => {
-          await sessionStorage.clear();
+          sessionStorage.clear();
         }}
         className={classes.navLinkStyle}
       >
